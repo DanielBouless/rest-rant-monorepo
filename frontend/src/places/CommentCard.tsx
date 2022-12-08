@@ -1,5 +1,22 @@
-function CommentCard({ comment, onDelete }) {
-    const { currentUser } = useContext(CurrentUser)
+import { Context } from "react";
+import { CurrentUser as CU, CurrentUser } from "../contexts/CurrentUser"
+interface Comment {
+    authorId: number;
+    author: {
+        firstName: string;
+        lastName: string;
+    };
+    rant: string;
+    stars: boolean;
+}
+
+interface CURRENTUSER {
+    userId: number
+}
+
+
+function CommentCard({ comment, onDelete }:{comment:Comment, onDelete: any}) {
+    const {currentUser}: any = useContext(CurrentUser)
 
     let deleteButton = null;
 
@@ -24,3 +41,8 @@ function CommentCard({ comment, onDelete }) {
 
 
 export default CommentCard;
+
+function useContext(CurrentUser: Context<any>): any {
+    throw new Error("Function not implemented.");
+}
+

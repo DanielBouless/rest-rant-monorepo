@@ -1,3 +1,4 @@
+import React from "react"
 import { useContext, useState } from "react"
 import { useHistory } from "react-router"
 import { CurrentUser } from "../contexts/CurrentUser"
@@ -15,7 +16,7 @@ function LoginForm() {
 
     const [errorMessage, setErrorMessage] = useState(null)
 
-    async function handleSubmit(e) {
+    async function handleSubmit() {
         const response = await fetch('https://localhost:5000/authentication/', {
             method:'POST',
             credentials: 'include',

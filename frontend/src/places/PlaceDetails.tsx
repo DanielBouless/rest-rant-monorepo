@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router"
 import { CurrentUser } from "../contexts/CurrentUser";
@@ -6,9 +7,23 @@ import NewCommentForm from "./NewCommentForm";
 
 function PlaceDetails() {
 
-	const { placeId } = useParams()
+	const {currentUser } = useContext(CurrentUser)
+
+	interface Place {
+		pic: string | undefined ;
+		name: string | undefined;
+		city: string;
+		state: string;
+		founded: string;
+		cuisines: string;
+		placeId: string;
+		comments: any[]
+	}
+
+	const { placeId } :{ placeId:string} = useParams()
 	const history = useHistory()
-	const [place, setPlace] = useState(null)
+	const [place, setPlace] = useState<any>(null) 
+
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -40,9 +55,16 @@ function PlaceDetails() {
 		history.push('/places')
 	}
 
+interface deleteComment{
+		commentId: number;
 
+}
 
-	async function deleteComment(deletedComment) {
+interface DeletedComment{
+	commentId: number;
+
+}
+	async function deleteComment(deletedComment: DeletedComment) {
 		await fetch(`http://localhost:5000/places/${place.placeId}/comments/${deletedComment.commentId}`, {
 			method: 'POST',
 			headers:{
@@ -54,13 +76,13 @@ function PlaceDetails() {
 		setPlace({
 			...place,
 			comments: place.comments
-				.filter(comment => comment.commentId !== deletedComment.commentId)
+				.filter((comment: { commentId: number; }) => comment.commentId !== deletedComment.commentId)
 		})
 	}
 
 
 
-	async function createComment(commentAttributes) {
+	async function createComment(commentAttributes: any) {
 		const response = await fetch(`http://localhost:5000/places/${place.placeId}/comments`, {
 			method: 'POST',
 			headers: {
@@ -95,7 +117,7 @@ function PlaceDetails() {
 		</h3>
 	)
 	if (place.comments.length) {
-		let sumRatings = place.comments.reduce((tot, c) => {
+		let sumRatings = place.comments.reduce((tot: any, c: { stars: any; }) => {
 			return tot + c.stars
 		}, 0)
 		let averageRating = Math.round(sumRatings / place.comments.length)
@@ -108,7 +130,7 @@ function PlaceDetails() {
 				{stars} stars
 			</h3>
 		)
-		comments = place.comments.map(comment => {
+		comments = place.comments.map((comment:any) => {
 			return (
 				<CommentCard key={comment.commentId} comment={comment} onDelete={() => deleteComment(comment)} />
 			)
@@ -172,3 +194,7 @@ function PlaceDetails() {
 }
 
 export default PlaceDetails
+
+function useContext(CurrentUser: React.Context<any>): { currentUser: any; } {
+	throw new Error("Function not implemented.");
+}

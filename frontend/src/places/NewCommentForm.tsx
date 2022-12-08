@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react"
 import { useHistory } from "react-router"
+import CurrentUser from "../contexts/CurrentUser"
 
-function NewCommentForm({ place, onSubmit }) {
+function NewCommentForm({ place, onSubmit }:{place: any, onSubmit: any}) {
 
-    const [authors, setAuthors] = useState([])
+    const [authors, setAuthors] = useState<any[]>([])
 
     const [comment, setComment] = useState({
         content: '',
-        stars: 3,
+        stars: 0,
         rant: false,
         authorId: ''
     })
@@ -27,12 +28,12 @@ function NewCommentForm({ place, onSubmit }) {
         return <option key={author.userId} value={author.userId}>{author.firstName} {author.lastName}</option>
     })
     */
-    function handleSubmit(e) {
+    function handleSubmit(e: any) {
         e.preventDefault()
         onSubmit(comment)
         setComment({
             content: '',
-            stars: 3,
+            stars: 0,
             rant: false,
             authorId: authors[0]?.userId
         })
@@ -63,14 +64,14 @@ function NewCommentForm({ place, onSubmit }) {
                 <div className="form-group col-sm-4">
                     <label htmlFor="state">Author</label>
                     <select className="form-control" value={comment.authorId} onChange={e => setComment({ ...comment, authorId: e.target.value })}>
-                        {authorOptions}
+                        {}
                     </select>
                 </div>
                 <div className="form-group col-sm-4">
                     <label htmlFor="stars">Star Rating</label>
                     <input
                         value={comment.stars}
-                        onChange={e => setComment({ ...comment, stars: e.target.value })}
+                        onChange={e => setComment({ ...comment, stars: Number(e.target.value) })}
                         type="range"
                         step="0.5"
                         min="1"
@@ -84,7 +85,7 @@ function NewCommentForm({ place, onSubmit }) {
                     <label htmlFor="rand">Rant</label>
                     <input
                         checked={place.rant}
-                        onClick={e => setComment({ ...comment, rant: e.target.checked })}
+                        onClick={e => setComment({ ...comment, rant: true })}
                         type="checkbox"
                         id="rant"
                         name="rant"
@@ -98,3 +99,7 @@ function NewCommentForm({ place, onSubmit }) {
 }
 
 export default NewCommentForm
+
+function useContext(CurrentUser: any): { currentUser: any } {
+    throw new Error("Function not implemented.")
+}

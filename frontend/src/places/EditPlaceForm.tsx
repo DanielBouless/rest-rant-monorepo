@@ -5,14 +5,17 @@ function EditPlaceForm() {
 
 	const history = useHistory()
 
-    const { placeId } = useParams()
+    const { placeId }: any = useParams()
+
 
     const [place, setPlace] = useState({
 		name: '',
 		pic: '',
 		city: '',
 		state: '',
-		cuisines: ''
+		cuisines: '',
+		placeId:'',
+		founded: ''
 	})
 
 	useEffect(() => {
@@ -24,7 +27,7 @@ function EditPlaceForm() {
 		fetchData()
 	}, [ placeId ])
 
-	async function handleSubmit(e) {
+	async function handleSubmit(e: any) {
 		e.preventDefault()
 
 		await fetch(`http://localhost:5000/places/${place.placeId}`, {

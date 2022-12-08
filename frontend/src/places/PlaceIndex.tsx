@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
-function PlaceIndex(data) {
+function PlaceIndex() {
 
 	const history = useHistory()
 	
@@ -16,7 +16,16 @@ function PlaceIndex(data) {
 		fetchData()
 	}, [])
 
-	let placesFormatted = places.map((place) => {
+
+	interface Place {
+		placeId: number;
+		name: string;
+		cuisines: string;
+		city: string;
+		state: string;
+		pic: string
+	}
+	let placesFormatted = places.map((place: Place) => {
 		return (
 			<div className="col-sm-6" key={place.placeId}>
 				<h2>

@@ -3,7 +3,7 @@ import { createContext, useState, useEffect } from "react";
 
 export const CurrentUser = createContext()
 
-function CurrentUserProvider({ children }){
+function CurrentUserProvider({ children}){
 
     const [currentUser, setCurrentUser] = useState(null)
     useEffect(()=>{
